@@ -1,0 +1,565 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #fff;
+}
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 60px;
+  background: #6a4737;
+  color: white;
+  padding: 0 20px;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+header h1 {
+  color: #ffffff;
+  font-size: 20px;
+}
+.name-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.name-user p {
+  color: white; /* น้ำตาลเข้ม */
+  font-weight: bold;
+  font-size: 16px;
+}
+.name-user a {
+  color: #ffc107;
+}
+
+
+
+.left ,
+.right {
+  position: relative;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 30px;
+}
+.right button {
+  padding: 8px 20px; /* ขยาย padding ให้ยาวขึ้น */
+  font-size: 14px;
+  border-radius: 50px; /* ใช้ค่ามากๆ เพื่อให้ปุ่มโค้ง */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: linear-gradient(45deg, #007bff, #0056b3); /* ไล่เฉดสีฟ้า */
+  color: white;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  border: none; /* ลบขอบ */
+  cursor: pointer;
+  margin: 5px;
+  margin-right: 30px;
+  transition: 0.3s;
+}
+.right a i,
+.name-user i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  text-decoration: none;
+}
+#loginButton:hover {
+  background: linear-gradient(45deg, #0056b3, #003f7f);
+  transform: scale(1.05);
+}
+
+/* ปุ่ม Logout */
+#logoutButton {
+  padding: 8px 20px;
+  font-size: 14px;
+  border-radius: 50px; /* ปุ่มโค้งมน */
+  background: linear-gradient(45deg, #ff0000, #cc0000); /* ไล่เฉดสีแดง */
+  color: white;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+#logoutButton:hover {
+  background: linear-gradient(45deg, #cc0000, #990000);
+  transform: scale(1.05);
+}
+#loginSection a {
+  text-decoration: none;
+}
+.container {
+  width: 100%;
+  max-width: 600px; /* จำกัดขนาดกว้างสุด */
+  /* min-height: 200px; */
+  height: auto;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  margin-top: 70px;
+  border-radius: 15px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+}
+.popup {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh; /* ใช้ height แทน min-height */
+  top: 0;
+  left: 0;
+  right: auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 999;
+}
+/* แสดงป๊อปอัปเมื่อมีคลาส .show */
+.popup.show {
+  display: flex;
+  opacity: 1;
+  visibility: visible;
+}
+/* ปรับขนาดของกล่องป๊อปอัป */
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 460px; /* จำกัดความกว้าง */
+  width: 90%; /* ให้ปรับขนาดตามจอ */
+  position: absolute;
+  animation: fadeInUp 0.3s ease-in-out;
+}
+/* 🔺 ปรับปุ่มด้านบน */
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  border-bottom: 1px solid #ddd;
+}
+/* 🔹 ปรับปรุงปุ่มปิด */
+.cancel-button {
+  background: none;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  border: none;
+}
+
+.cancel-button:hover {
+    background: #007bff;
+    color: #fafafa;
+    border-radius: 8px;
+}
+
+/* 🔹 ปรับปรุงการตอบสนองบนมือถือ */
+@media (max-width: 480px) {
+  .popup-content {
+    width: 95%; /* ปรับขนาดให้เหมาะสมกับจอเล็ก */
+    padding: 15px;
+  }
+}
+
+.popup-content h3 {
+  margin-bottom: 10px;
+}
+.popup-content textarea {
+  width: 100%;
+  height: 70px;
+  margin-top: 10px;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  outline: none;
+  resize: none;
+}
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.popup-buttons button {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+/* 🔻 ปรับปุ่มรูปภาพ */
+.custom-file-upload {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  text-align: center;
+  width: fit-content;
+  padding: 5px;
+  color: #5a3c2f;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.custom-file-upload:hover {
+  color: #4e3c34;
+}
+.custom-file-upload i {
+  font-size: 20px;
+}
+.post-button:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+  pointer-events: none; /* ป้องกันการคลิก */
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.post-button {
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+/* 🔻 เพิ่มข้อความ "ทุกคนสามารถตอบกลับได้" */
+.reply-text {
+  text-align: left;
+  font-size: 14px;
+  color: #555;
+}
+.post img {
+  max-width: 100px; /* กำหนดความกว้างสูงสุด */
+  max-height: 100px; /* กำหนดความสูงสูงสุด */
+  width: auto; /* ป้องกันการยืดภาพ */
+  height: auto;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px; /* ทำให้ขอบโค้ง */
+}
+h1 {
+  color: #333;
+  font-weight: bold;
+}
+
+.toggle-button,
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+.divider {
+  margin: 1.5rem 0;
+  height: 1px;
+  background: #ddd;
+  position: relative;
+}
+button:hover {
+  background: #0056b3;
+}
+.post-box textarea {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.post {
+  background: #fff;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  text-align: left;
+}
+.post p {
+  margin: 5px 0;
+}
+a {
+  text-decoration: none;
+  color: #007bff;
+  cursor: pointer;
+}
+a:hover {
+  text-decoration: underline;
+}
+.post {
+  background: #fff; /* สีพื้นหลัง */
+  padding: 15px;
+  border-radius: 12px; /* ทำขอบมน */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+  border: 1px solid #ddd;
+  transition: transform 0.2s ease-in-out;
+}
+
+.post:hover {
+  transform: scale(1.02); /* ทำให้โพสต์ขยายเล็กน้อยเมื่อ hover */
+}
+/* กล่องพิมพ์ข้อความตอบกลับ */
+.reply-section input {
+  width: 100%; /* ปรับให้เต็มพื้นที่ */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* ทำขอบมน */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* เมื่อโฟกัสที่กล่องพิมพ์ */
+.reply-section input:focus {
+  border-color: #007bff; /* เปลี่ยนขอบเป็นสีน้ำเงิน */
+  box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3); /* เพิ่มเงา */
+}
+/* ปุ่มส่ง */
+.reply-section button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+/* เมื่อเอาเมาส์ไปวางบนปุ่ม */
+.reply-section button:hover {
+  background: #0056b3;
+}
+
+.post-box {
+  background: #f0f0f0;
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+#postInput {
+  width: 100%;
+  min-height: 100px;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  outline: none;
+  resize: none;
+  background: #ffffff;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+#postInput:focus {
+  background: #fafafa;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.post-box button {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.post-box button:hover {
+  background: #005ecb;
+}
+#postList {
+  list-style: none; /* ลบจุด bullet */
+  padding: 0; /* ลบ padding */
+  margin: 10px 0; /* เพิ่มระยะห่างด้านบนและล่าง */
+  display: flex; /* ใช้ flexbox */
+  flex-direction: column; /* เรียงโพสต์ในแนวตั้ง */
+  gap: 5px; /* เพิ่มช่องว่างระหว่างโพสต์ */
+  max-width: 600px; /* กำหนดขนาดความกว้างสูงสุด */
+  margin-left: auto;
+  margin-right: auto;
+}
+/* ปรับสไตล์ของกล่องพิมพ์ตอบกลับ */
+.reply-box {
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.reply-box input {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.reply-box input:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+}
+
+.reply-box button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.reply-box button:hover {
+  background: #0056b3;
+}
+
+/* ปรับข้อความตอบกลับ */
+.reply-section {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.reply-section li {
+  background: #f8f9fa;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border-left: 4px solid #007bff;
+}
+
+.reply-section li strong {
+  color: #007bff;
+  font-weight: bold;
+}
+
+
+
+
+
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .content {
+    height: 200px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}
+
+.waves {
+  top: 20px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  margin-bottom: 0;
+  min-height: 100px;
+  max-height: 400px;
+}
+
+
+.content {
+  color: black;
+  position: relative;
+  height: 20vh;
+  text-align: center;
+  background-color: rgb(0, 0, 0);
+}
+

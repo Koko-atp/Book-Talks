@@ -1,0 +1,147 @@
+<!--Hey! This is the original version
+of Simple CSS Waves-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <div class="header">
+        <!--Content before waves-->
+        <div class="inner-header flex">
+            <div class="wrapper">
+                <img src="/picture/logo.png" alt="logo-1" />
+
+                <!-- 📌 Form Login -->
+                <div id="loginForm">
+                    <div class="divider"></div>
+                    <!-- <h2>เข้าสู่ระบบ</h2> -->
+                    <div class="input-box">
+                        <label for="login-email">Email</label>
+                        <input type="text" id="login-email" required />
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required />
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <button class="btn" onclick="login()">Login</button>
+
+                    <div class="divider">
+                        <span>Or</span>
+                    </div>
+
+                    <p class="toggle-text" onclick="toggleForms()">ยังไม่มีบัญชี? สมัครสมาชิก</p>
+                </div>
+
+                <!-- 📌 Form Sign Up -->
+                <div id="signUpForm" class="hidden">
+                    <div class="divider"></div>
+                    <!-- <h2>สมัครสมาชิก</h2> -->
+                    <div class="input-box">
+                        <label for="signup-name">Name</label>
+                        <input type="text" id="signup-name" required />
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required />
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+
+                    <div class="input-box">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required />
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <button class="btn" onclick="signUp()">Sign Up</button>
+
+                    <div class="divider">
+                        <span>Or</span>
+                    </div>
+
+                    <p class="toggle-text" onclick="toggleForms()">มีบัญชีแล้ว? เข้าสู่ระบบ</p>
+                </div>
+            </div>
+        </div>
+
+        <!--Waves Container-->
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+        <!--Waves end-->
+    </div>
+    <script>
+        function toggleForms() {
+            document.getElementById("loginForm").classList.toggle("hidden");
+            document.getElementById("signUpForm").classList.toggle("hidden");
+        }
+
+        function login() {
+            let email = document.getElementById("login-email").value.trim();
+            let password = document.getElementById("login-password").value.trim();
+
+            if (email === "" || password === "") {
+                alert("กรุณากรอกอีเมลและรหัสผ่าน");
+                return;
+            }
+
+            let user = JSON.parse(localStorage.getItem(email));
+
+            if (!user || user.password !== password) {
+                alert("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+                return;
+            }
+
+            localStorage.setItem("currentUser", user.name);
+            window.location.href = "/index.html";
+        }
+
+        function signUp() {
+            let name = document.getElementById("signup-name").value.trim();
+            let email = document.getElementById("signup-email").value.trim();
+            let password = document.getElementById("signup-password").value.trim();
+
+            if (name === "" || email === "" || password === "") {
+                alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+                return;
+            }
+
+            if (localStorage.getItem(email)) {
+                alert("อีเมลนี้ถูกใช้ไปแล้ว");
+                return;
+            }
+
+            let user = { name: name, email: email, password: password };
+            localStorage.setItem(email, JSON.stringify(user));
+
+            alert("สมัครสมาชิกสำเร็จ! โปรดเข้าสู่ระบบ");
+            toggleForms(); // กลับไปหน้า Login
+        }
+    </script>
+</body>
+
+</html>

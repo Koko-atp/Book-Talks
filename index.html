@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Post System with Replies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <header>
+        <div class="left">
+            <i class="fa-solid fa-book"></i>
+            <h1>Book Talks</h1>
+        </div>
+
+                <!--Waves Container-->
+        <div>
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave"
+                        d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                </g>
+            </svg>
+        </div>
+        <!--Waves end-->
+
+        <!-- ระบบล็อกอิน -->
+        <div class="right">
+            <div id="loginSection">
+                <a href="login.html">
+                    <button id="loginButton">เข้าสู่ระบบ
+                        <i class="fa-solid fa-user-tie"></i>
+                    </button>
+                </a>
+            </div>
+            <div class="name-user" id="logoutSection" style="display: none;">
+                <p>Hi, <a href="#" id="currentUserLink"><span id="currentUser"></span></a></p>
+                <button id="logoutButton" onclick="logout()">ออกจากระบบ
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="postPopup" class="popup">
+            <div class="popup-content">
+                <!-- แถบด้านบน -->
+                <div class="popup-header">
+                    <button onclick="closePopup()" class="cancel-button">ยกเลิก</button>
+                    <h3 class="post-center">สร้างโพสต์ใหม่</h3>
+                </div>
+                <!-- กล่องพิมพ์โพสต์ -->
+                <textarea id="popupPostInput" placeholder="พิมพ์โพสต์ของคุณ..."></textarea>
+                <!-- ปุ่มอัปโหลดภาพ -->
+                <label for="imageInput" class="custom-file-upload">
+                    <i class="fa-solid fa-images"></i> image
+                </label>
+                <input type="file" id="imageInput" accept="image/*" hidden>
+                <!-- แสดงภาพตัวอย่างในป๊อปอัป -->
+                <div id="imagePreviewContainer" style="display: none; margin-top: 10px;">
+                    <img id="previewImagePopup" src="" alt="ภาพตัวอย่าง" style="max-width: 30%; border-radius: 10px;">
+                </div>
+                <!-- แสดงข้อความ "ทุกคนสามารถตอบกลับได้" -->
+                <div class="footer">
+                    <p class="reply-text">ทุกคนสามารถตอบกลับได้</p>
+                    <button onclick="submitPost()" class="post-button">โพสต์</button>
+                </div>
+            </div>
+        </div>
+
+    <div class="container">
+        <!-- ระบบโพสต์ -->
+        <div id="postSection" style="display: none;">
+            <button class="toggle-button" onclick="openPopup()">โพสต์</button>
+        </div>
+        
+        
+        <ul id="postList"></ul>
+    </div>
+    <!-- ป๊อปอัปสำหรับพิมพ์โพสต์ -->
+
+    <script src="script.js"></script>
+</body>
+<script>
+    // ถ้าเปิดหน้า posts.html แต่ยังไม่ล็อกอิน -> ส่งไป home.html
+    if (window.location.pathname.includes("posts.html")) {
+        if (!localStorage.getItem("currentUser")) {
+            window.location.href = "home.html"; // เปลี่ยนไปหน้า home.html แทน index.html
+        }
+    }
+    function openPopup() {
+        document.getElementById("postPopup").classList.add("show");
+    }
+
+    function closePopup() {
+        document.getElementById("postPopup").classList.remove("show");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        let currentUser = localStorage.getItem("currentUser");
+
+        if (currentUser) {
+            document.getElementById("currentUser").textContent = currentUser;
+            document.getElementById("logoutSection").style.display = "flex";
+            document.getElementById("loginSection").style.display = "none";
+        } else {
+            document.getElementById("logoutSection").style.display = "none";
+            document.getElementById("loginSection").style.display = "block";
+        }
+
+        // เช็คหน้า posts.html ว่าผู้ใช้ล็อกอินหรือไม่
+        if (window.location.pathname.includes("posts.html") && !currentUser) {
+            window.location.href = "home.html";
+        }
+    });
+    if (currentUser) {
+        document.getElementById("postSection").style.display = "block";
+    }
+</script>
+
+</html>

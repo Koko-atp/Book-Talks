@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /* รีเซ็ตค่าเริ่มต้น */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            background: #6a4737;
+            padding: 5px;
+            color: white;
+            /* gap: 5px; */
+            padding: 10px;
+        }
+
+        header i {
+            margin-left: 15px;
+            padding: 10px;
+        }
+
+        header h1 {
+            color: #ffffff;
+            font-size: 20px;
+        }
+
+        /* 🔹 MAIN CONTENT */
+        .main {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            width: 60%;
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            background: #f5e1c8;
+        }
+
+
+        .main h2 {
+            color: #3E2723;
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
+            width: 100%;
+            border-bottom: 1px solid #000000;
+            text-align: left;
+        }
+
+        /* 🔹 LAYOUT จัดให้อยู่ในแถวเดียวกัน */
+        .profile-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto;
+            gap: 5px;
+            /* justify-content: center;
+            align-items: flex-start; */
+            width: 100%;
+        }
+
+        /* 🔹 PROFILE BOX */
+        .container {
+            /* flex: 1; */
+            grid-row: span 2 / span 2;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 350px;
+            max-width: 250px;
+            background: #F5F5F5;
+        }
+
+        .container i {
+            font-size: 80px;
+            margin: 10px 0;
+            margin-bottom: 30px;
+            cursor: pointer;
+            color: #5D4037;
+            background: #fff;
+            /* ใส่พื้นหลัง */
+            border-radius: 50%;
+            /* ทำให้เป็นวงกลม */
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            /* เพิ่มมิติเบาๆ */
+        }
+
+        .container p {
+            font-size: 18px;
+            color: #333333;
+        }
+
+        /* 🔹 POST BOX */
+        .prof {
+            color: #333333;
+            background: #F5F5F5;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            width: 100%;
+            min-height: 290px;
+            text-align: start;
+        }
+
+        /* 🔹 BACK BUTTON */
+        .back {
+            grid-column-start: 2;
+            grid-row-start: 2;
+            width: 100%;
+            text-align: end;
+            margin-top: 10px;
+            padding: 10px 0;
+        }
+
+        .back i {
+            margin-right: 5px;
+        }
+
+        /* 🔹 POST LIST */
+        ul {
+            list-style: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        ul li {
+            /* margin-top: 10px; */
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px;
+            margin: 4px 0;
+            border-radius: 8px;
+            color: #333;
+            /* width: fit-content; */
+            border: 2px solid #6a4737;
+            /* ✅ เปลี่ยนเป็นสีน้ำตาลเข้มให้มองเห็นได้ */
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            /* ✅ เพิ่มเงา */
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            background: linear-gradient(45deg, #008000, #00cc00);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+
+        a:hover {
+            background: linear-gradient(45deg, #006600, #009900);
+            transform: scale(1.05);
+            /* ขยายเล็กน้อยเมื่อโฮเวอร์ */
+        }
+
+
+        /* 🔹 RESPONSIVE */
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 400px;
+                height: auto;
+            }
+
+            .prof {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 🔹 HEADER -->
+    <header>
+        <i class="fa-solid fa-book"></i>
+        <h1>Book Talks</h1>
+    </header>
+    <!-- 🔹 MAIN CONTENT -->
+    <div class="main">
+        <h2>Profile</h2>
+        <div class="profile-container">
+            <!-- 🔹 PROFILE BOX -->
+            <div class="container">
+                <i class="fa-solid fa-circle-user"></i>
+                <p>name: <strong id="profileUser"></strong></p>
+            </div>
+
+            <!-- 🔹 POSTS BOX -->
+            <div class="prof">
+                <h2>โพสต์ของผู้ใช้</h2>
+                <ul id="userPosts"></ul>
+            </div>
+
+            <!-- 🔹 BACK BUTTON -->
+            <div class="back">
+                <a href="index.html"><i class="fa-solid fa-arrow-left"></i>กลับไปหน้าหลัก</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+
+</html>
